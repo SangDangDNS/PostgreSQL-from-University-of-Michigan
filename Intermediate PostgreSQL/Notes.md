@@ -1,9 +1,10 @@
 ### Altering Table Schema
-We can change the schema and it will auto convert all of the data to the new schema all while the application running. It can do an ALTER TABLE while it's live.![Alt text](img/fimage.png)
+We can change the schema and it will auto convert all of the data to the new schema all while the application running. It can do an ALTER TABLE while it's live.  
+![Alt text](img/fimage.png)  
 We can so alter indexs, uniqueness constraints, foreign keys, and run on a live DATABASE.
 ![Alt text](img/image.png)  
 So, we can read SQL statements from a file like this: `\i <name of file>`
-### Dates
+### DATES
 ![Alt text](img/image-1.png)  
 Setting default value:
 * We can save some code by auto-populating date fields when a row is inserted  
