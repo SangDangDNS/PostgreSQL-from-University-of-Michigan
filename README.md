@@ -6,9 +6,9 @@ Across these four courses, you’ll learn how to use the PostgreSQL database and
 
 Applied Learning Project
 
-This course series utilizes a custom autograding environment for an authentic set of graded and practice assignments, including: creating and manipulating tables, designing data models, constructing advanced queries, techniques for working with text in databases, including regular expressions, and more.
-**Course 1:** [Database Design and Basic SQL in PostgreSQL](https://www.coursera.org/learn/database-design-postgresql?specialization=postgresql-for-everybody) 
-**Course 2:** [Intermediate PostgreSQL](https://www.coursera.org/learn/intermediate-postgresql?specialization=postgresql-for-everybody) 
-**Course 3:** [JSON and Natural Language Processing in PostgreSQL](https://www.coursera.org/learn/json-natural-language-processing-postgresql?specialization=postgresql-for-everybody) 
+This course series utilizes a custom autograding environment for an authentic set of graded and practice assignments, including: creating and manipulating tables, designing data models, constructing advanced queries, techniques for working with text in databases, including regular expressions, and more.  
+**Course 1:** [Database Design and Basic SQL in PostgreSQL](https://www.coursera.org/learn/database-design-postgresql?specialization=postgresql-for-everybody)  
+**Course 2:** [Intermediate PostgreSQL](https://www.coursera.org/learn/intermediate-postgresql?specialization=postgresql-for-everybody)  
+**Course 3:** [JSON and Natural Language Processing in PostgreSQL](https://www.coursera.org/learn/json-natural-language-processing-postgresql?specialization=postgresql-for-everybody)  
 **Course 4:** [Database Architecture, Scale, and NoSQL with Elasticsearch](https://www.coursera.org/learn/database-architecture-scale-nosql-elasticsearch-postgresql?specialization=postgresql-for-everybody) 
 
