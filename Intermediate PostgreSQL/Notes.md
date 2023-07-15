@@ -58,4 +58,28 @@ Databases are designed to accept SQL commands from a variety of sources simultan
 **Single SQL statements are Atomic**  
 * All the inserts will work and get a unique primary key
 * Which account gets which key is not predictable
-![Alt text](img/image-16.png)
+![Alt text](img/image-16.png)  
+**Compound Statements**  
+* There are statements which  do more than one things in one statement for efficiency and concurrency.  
+
+![Alt text](image.png)
+
+**One Conflict**
+- Sometimes you "bump into" a constraint on purpose  
+
+![Alt text](image-1.png)
+
+**Multi-Statement Transactions**
+
+![Alt text](image-2.png)
+
+**Transaction and Performance**
+The implement of transactions make a big difference in database performance:
+- Lock granularity
+- Lock implementation
+
+**Transaction topics**
+- Lock strength UPDATE, NO KEY UPDATE
+- What to do when encountering a lock(WAIT), NOWAIT, SKIP LOCKED  
+
+### Stored Procedures
