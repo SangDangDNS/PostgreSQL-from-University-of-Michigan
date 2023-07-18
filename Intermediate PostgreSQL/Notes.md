@@ -83,3 +83,148 @@ The implement of transactions make a big difference in database performance:
 - What to do when encountering a lock(WAIT), NOWAIT, SKIP LOCKED  
 
 ### Stored Procedures
+
+- A stored procedure is a bit of reusable code that run inside of the database server  
+- Technically there are multiple language choices just use "pl/pgsql"
+- Generally quite non-portable
+- Usually the goal is have fewer SQL statements  
+
+You should have a strong reason to use a stored procedure:
+- Major performance problem
+- Harder to test/modify
+- No database portability
+- Some rule that must be enforced
+
+![Alt text](image-3.png)
+
+### Reading and Parsing Files  
+
+### Assignment 
+
+In this assignment you will read some [Unesco Heritage Site](https://whc.unesco.org/en/list/) data in comma-separated-values (CSV) format and produce properly normalized tables.  
+
+Download that file [here](https://www.pg4e.com/tools/sql/whc-sites-2018-small.csv?PHPSESSID=e55d71b1b6456a14a72eb0ab9f869ec9%22)  
+
+Firstly, I create some table as below:
+
+```
+DROP TABLE unesco_raw;
+CREATE TABLE unesco_raw
+ (name TEXT, description TEXT, justification TEXT, year INTEGER,
+    longitude FLOAT, latitude FLOAT, area_hectares FLOAT,
+    category TEXT, category_id INTEGER, state TEXT, state_id INTEGER,
+    region TEXT, region_id INTEGER, iso TEXT, iso_id INTEGER);
+
+
+CREATE TABLE category (
+  id SERIAL,
+  name VARCHAR(128) UNIQUE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE state (
+  id SERIAL,
+  name VARCHAR(256) UNIQUE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE region (
+  id SERIAL,
+  name VARCHAR(1024) UNIQUE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE iso (
+  id SERIAL,
+  name CHAR(2) UNIQUE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE unesco (
+  id SERIAL,
+  name VARCHAR(1024) UNIQUE,
+  year INTEGER,
+  longitude FLOAT, latitude FLOAT, area_hectares FLOAT,
+  category_id INTEGER REFERENCES category(id) ON DELETE CASCADE,
+  state_id INTEGER REFERENCES state(id) ON DELETE CASCADE,
+  region_id INTEGER REFERENCES region(id) ON DELETE CASCADE,
+  iso_id INTEGER REFERENCES iso(id) ON DELETE CASCADE,
+  UNIQUE(name, category_id),
+  PRIMARY KEY(id)
+);
+```
+
+Then, load CSV data file into the unesco_raw table using the `\copy` command.  
+
+```
+\copy unesco_raw(name,description,justification,year,longitude,latitude,area_hectares,category,state,region,iso) FROM 'whc-sites-2018-small.csv' WITH DELIMITER ',' CSV HEADER;
+```
+Adding HEADER causes the CSV loader to skip the first line in the CSV file.  
+
+Next, nnsert all distinct values of category, state, region, and iso into their respective tables: category, state, region, and iso.  
+
+```
+INSERT INTO category (name) SELECT DISTINCT category FROM unesco_raw;
+INSERT INTO state (name) SELECT DISTINCT state FROM unesco_raw;
+INSERT INTO region (name) SELECT DISTINCT region FROM unesco_raw;
+INSERT INTO iso (name) SELECT DISTINCT iso FROM unesco_raw;
+```
+
+Then set the category_id, state_id, region_id ,iso_id in the unesco_raw table.  
+
+```
+UPDATE unesco_raw
+SET (category_id, state_id, region_id, iso_id) = (
+  (SELECT id FROM category WHERE name = unesco_raw.category),
+  (SELECT id FROM state WHERE name = unesco_raw.state),
+  (SELECT id FROM region WHERE name = unesco_raw.region),
+  (SELECT id FROM iso WHERE name = unesco_raw.iso)
+);
+```
+
+Then use a INSERT ... SELECT statement to copy the corresponding data from the `unesco_raw` table to the `unesco` table.  
+
+```
+INSERT INTO unesco (
+  name, 
+  year,
+  longitude ,
+  latitude , 
+  area_hectares ,
+  category_id ,
+  state_id ,
+  region_id ,
+  iso_id ) SELECT name, 
+  year,
+  longitude ,
+  latitude , 
+  area_hectares ,
+  category_id ,
+  state_id ,
+  region_id ,
+  iso_id FROM unesco_raw;
+
+```
+
+Finally, We can check again by this command: 
+```
+SELECT unesco.name AS Name, year AS Year, category.name AS Category, state.name AS State, region.name AS Region, iso.name AS Iso
+  FROM unesco
+  JOIN category ON unesco.category_id = category.id
+  JOIN iso ON unesco.iso_id = iso.id
+  JOIN state ON unesco.state_id = state.id
+  JOIN region ON unesco.region_id = region.id
+  ORDER BY iso.name, unesco.name
+  LIMIT 3;
+```
+
+This is the result:
+```
+                                  name                                   | year | category |        state         |          region          | iso 
+-------------------------------------------------------------------------+------+----------+----------------------+--------------------------+-----
+ Madriu-Perafita-Claror Valley                                           | 2004 | Cultural | Andorra              | Europe and North America | ad
+ Cultural Sites of Al Ain (Hafit, Hili, Bidaa Bint Saud and Oases Areas) | 2011 | Cultural | United Arab Emirates | Arab States              | ae
+ Cultural Landscape and Archaeological Remains of the Bamiyan Valley     | 2003 | Cultural | Afghanistan          | Asia and the Pacific     | af
+(3 rows)
+```
+
