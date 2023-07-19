@@ -62,16 +62,16 @@ Databases are designed to accept SQL commands from a variety of sources simultan
 **Compound Statements**  
 * There are statements which  do more than one things in one statement for efficiency and concurrency.  
 
-![Alt text](image.png)
+![Alt text](img/image.1.png)
 
 **One Conflict**
 - Sometimes you "bump into" a constraint on purpose  
 
-![Alt text](image-1.png)
+![Alt text](img/image-1.1.png)
 
 **Multi-Statement Transactions**
 
-![Alt text](image-2.png)
+![Alt text](img/image-2.1.png)
 
 **Transaction and Performance**
 The implement of transactions make a big difference in database performance:
@@ -95,7 +95,7 @@ You should have a strong reason to use a stored procedure:
 - No database portability
 - Some rule that must be enforced
 
-![Alt text](image-3.png)
+![Alt text](img/image-3.1.png)
 
 ### Reading and Parsing Files  
 
