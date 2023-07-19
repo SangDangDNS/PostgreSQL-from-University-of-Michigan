@@ -228,3 +228,69 @@ This is the result:
 (3 rows)
 ```
 
+### Text in Databases
+
+#### Exploring performance
+- We can't really explore performance if we
+only have 5 records
+- So before we play a bit with performance,
+we need to make up some data  
+
+#### Generating lots of Random Data
+- We use repeat() to generate long strings
+(horizontal)
+- We use generate_series() to generate
+lots of rows (vertical)
+  - Like Python's range
+- We use random() to make rows unique
+  - Floating point 0 <= random() <= 1.0  
+
+![img_4.png](img%2Fimg_4.png)
+![img_5.png](img%2Fimg_5.png)
+
+### Text Function  
+
+#### Many Text Functions  
+
+**Where Clause Operators**  
+
+- LIKE / ILIKE / NOT LIKE / NOT ILIKE   
+- SIMILAR TO/ NOT SIMILAR TO (cover later as regular expressions)  
+- = > < >= <= BETWEEN IN     
+
+**Manipulate SELECT Results / WHERE clause**
+- lower(), upper()  
+
+![img_6.png](img%2Fimg_6.png)
+
+![img_7.png](img%2Fimg_7.png)
+
+![img_8.png](img%2Fimg_8.png)
+
+### B-TREE index performance
+
+![img_9.png](img%2Fimg_9.png)
+
+![img_10.png](img%2Fimg_10.png)
+
+### Character Sets  
+
+#### Representing Simple Strings  
+
+- "In the old days" - each character is represented by a number
+between 0 and 127 stored in 8 bits of memory
+- We refer to "8 bits of memory as a "byte" of memory
+- The ascii() function tells us the numeric value of a single ASCII
+character
+- The chr() function maps from an integer to a character  
+
+![img_11.png](img%2Fimg_11.png)
+
+#### Unicode – All Characters in One Set
+• Unicode is 32 / 21 bits (long story)  
+• Unicode 12.1  
+• 137,000 characters  
+• 150 character sets  
+
+ ![img_12.png](img%2Fimg_12.png)
+
